@@ -61,7 +61,6 @@ public class BluePrintsCreator {
             }
         }
         System.out.println();
-
     }
 
     private static void consultSpecifiBlueprints() throws BlueprintNotFoundException {

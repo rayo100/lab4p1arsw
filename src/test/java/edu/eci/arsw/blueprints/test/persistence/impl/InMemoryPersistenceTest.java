@@ -104,5 +104,4 @@ public class InMemoryPersistenceTest {
             fail("Blueprint failed getting the blueprints");
         }
     }
-
 }
