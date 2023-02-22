@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.arsw.blueprints.test.persistence.impl;
+package edu.eci.arsw.blueprints.persistence.impl;
 
 import edu.eci.arsw.blueprints.AppConfig;
 import edu.eci.arsw.blueprints.creators.BluePrintsCreator;
@@ -15,48 +15,53 @@ import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  *
  * @author hcadavid
  */
-@SpringBootTest
+
+@SpringBootTest(classes={AppConfig.class})
+@RunWith(SpringRunner.class)
 @ExtendWith(SpringExtension.class)
-@Import(AppConfig.class)
 public class InMemoryPersistenceTest {
+    
+    @Autowired
+    InMemoryBlueprintPersistence ibpp;
     
     @Test
     public void saveNewAndLoadTest() throws BlueprintPersistenceException, BlueprintNotFoundException{
-        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
 
+        
+        
         Point[] pts0=new Point[]{new Point(40, 40),new Point(15, 15)};
         Blueprint bp0=new Blueprint("mack", "mypaint",pts0);
         
         ibpp.saveBlueprint(bp0);
         
         Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
-        Blueprint bp=new Blueprint("john", "thepaint",pts);
+        Blueprint bp=new Blueprint("johna", "thepaint",pts);
         
         ibpp.saveBlueprint(bp);
         
-        assertNotNull("Loading a previously stored blueprint returned null.",ibpp.getBlueprint(bp.getAuthor(), bp.getName()));
+        assertNotNull(ibpp.getBlueprint(bp.getAuthor(), bp.getName()));
         
-        assertEquals("Loading a previously stored blueprint returned a different blueprint.",ibpp.getBlueprint(bp.getAuthor(), bp.getName()), bp);
+        assertEquals(ibpp.getBlueprint(bp.getAuthor(), bp.getName()), bp);
         
     }
 
     @Test
     public void saveExistingBpTest() {
-        InMemoryBlueprintPersistence ibpp=new InMemoryBlueprintPersistence();
         
         Point[] pts=new Point[]{new Point(0, 0),new Point(10, 10)};
         Blueprint bp=new Blueprint("john", "thepaint",pts);
@@ -81,12 +86,11 @@ public class InMemoryPersistenceTest {
     
     @Test 
     public void getBlueprintTest(){
-        InMemoryBlueprintPersistence ibpp = new InMemoryBlueprintPersistence();
         Point[] pts = new Point[]{new Point(0, 0),new Point(10, 10)};
-        Blueprint bp = new Blueprint("Cesar", "CV", pts);
+        Blueprint bp = new Blueprint("Cesara", "CV", pts);
         try {
             ibpp.saveBlueprint(bp);
-            Blueprint blueprint = ibpp.getBlueprint("Cesar", "CV");
+            Blueprint blueprint = ibpp.getBlueprint("Cesara", "CV");
             assertEquals(blueprint, bp);
         } catch (BlueprintPersistenceException ex) {
             fail("Blueprint persistence failed inserting the first blueprint: " + ex.getMessage());
@@ -98,7 +102,6 @@ public class InMemoryPersistenceTest {
 
     @Test 
     public void getBlueprintByAuthorTest(){
-        InMemoryBlueprintPersistence ibpp = new InMemoryBlueprintPersistence();
         Point[] pts = new Point[]{new Point(0, 0),new Point(10, 10)};
         Blueprint bp = new Blueprint("Cesar", "CV", pts);
         Point[] pts2 = new Point[]{new Point(10, 10),new Point(20, 20)};
