@@ -5,6 +5,8 @@
  */
 package edu.eci.arsw.blueprints.test.persistence.impl;
 
+import edu.eci.arsw.blueprints.AppConfig;
+import edu.eci.arsw.blueprints.creators.BluePrintsCreator;
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
@@ -17,11 +19,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 /**
  *
  * @author hcadavid
  */
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@Import(AppConfig.class)
 public class InMemoryPersistenceTest {
     
     @Test
@@ -79,7 +89,7 @@ public class InMemoryPersistenceTest {
             Blueprint blueprint = ibpp.getBlueprint("Cesar", "CV");
             assertEquals(blueprint, bp);
         } catch (BlueprintPersistenceException ex) {
-            fail("Blueprint persistence failed inserting the first blueprint.");
+            fail("Blueprint persistence failed inserting the first blueprint: " + ex.getMessage());
         } catch (BlueprintNotFoundException e){
             fail("Blueprint failed getting the blueprint");
         }
@@ -99,7 +109,7 @@ public class InMemoryPersistenceTest {
             Set<Blueprint> set = ibpp.getBlueprintsByAuthor("Cesar");
             assertEquals(set.size(),2);
         } catch (BlueprintPersistenceException ex) {
-            fail("Blueprint persistence failed inserting the blueprints.");
+            fail("Blueprint persistence failed inserting the blueprints: " + ex.getMessage());
         } catch (BlueprintNotFoundException e){
             fail("Blueprint failed getting the blueprints");
         }

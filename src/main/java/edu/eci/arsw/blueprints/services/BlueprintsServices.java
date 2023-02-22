@@ -22,14 +22,15 @@ import org.springframework.stereotype.Service;
  *
  * @author hcadavid
  */
-@Service
+@Service("BlueprintsServices")
 public class BlueprintsServices {
    
     @Autowired
-    @Qualifier("inMemoryPersistence")
+    @Qualifier("InMemoryBlueprintPersistence")
     BlueprintsPersistence bpp;
 
     @Autowired
+    @Qualifier("RedundanceFilter")
     Filter filter;
     
     public void addNewBlueprint(Blueprint bp) throws BlueprintPersistenceException{

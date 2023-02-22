@@ -5,8 +5,9 @@ import java.util.*;
 import org.springframework.stereotype.Service;
 
 import edu.eci.arsw.blueprints.model.*;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component("RedundanceFilter")
 public class RedundanceFilter implements Filter{
     
     @Override

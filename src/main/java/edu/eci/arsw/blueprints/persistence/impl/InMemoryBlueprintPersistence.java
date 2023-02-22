@@ -17,16 +17,18 @@ import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author hcadavid
  */
-@Service
+@Component("InMemoryBlueprintPersistence")
 public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     @Autowired
+    @Qualifier("RedundanceFilter")
     private Filter filter;
 
     private final Map<Tuple<String,String>,Blueprint> blueprints=new HashMap<>();
@@ -41,8 +43,10 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         Blueprint bp0 = new Blueprint("Profe", "mypaint",pts0);
         blueprints.put(new Tuple<>(bp0.getAuthor(),bp0.getName()), bp0);
         Point[] pts1 = new Point[]{new Point(0, 0),new Point(10, 10)};
+        /*
         Blueprint bp1 = new Blueprint("Cesar", "CV",pts1);
         blueprints.put(new Tuple<>(bp1.getAuthor(),bp1.getName()), bp1);
+        */
         Point[] pts2 = new Point[]{new Point(35, 35),new Point(20, 20),new Point(20,20)};
         Blueprint bp2 = new Blueprint("Yorks", "YG",pts2);
         blueprints.put(new Tuple<>(bp2.getAuthor(),bp2.getName()), bp2);
@@ -71,6 +75,7 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         if (bp==null){
             throw new BlueprintNotFoundException("Blueprint no se pudo encontrar");
         }
+
         filter.filter(bp);
         return bp;
     }

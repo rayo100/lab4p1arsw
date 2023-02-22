@@ -9,8 +9,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import edu.eci.arsw.blueprints.model.*;
 import edu.eci.arsw.blueprints.persistence.*;
 import edu.eci.arsw.blueprints.services.BlueprintsServices;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 public class BluePrintsCreator {
+    @Autowired
+    @Qualifier("BlueprintsServices")
     private static BlueprintsServices bp;
 
     public static void main(String args[]) throws BlueprintPersistenceException,BlueprintNotFoundException{

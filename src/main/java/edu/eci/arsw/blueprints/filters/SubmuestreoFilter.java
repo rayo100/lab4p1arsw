@@ -3,7 +3,9 @@ package edu.eci.arsw.blueprints.filters;
 import java.util.*;
 
 import edu.eci.arsw.blueprints.model.*;
+import org.springframework.stereotype.Component;
 
+@Component("SubmuestreoFilter")
 public class SubmuestreoFilter implements Filter{
 
     @Override
